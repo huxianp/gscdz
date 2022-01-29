@@ -28,4 +28,5 @@ public class Tips {
 	private String tip;
 	@ManyToOne(cascade = CascadeType.DETACH)
 	private SolvedProblem solvedProblem;
+	//test
 }
