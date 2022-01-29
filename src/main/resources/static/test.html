@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>评分组件</title>
+  <link rel="stylesheet" href="asset/layui/css/layui.css">
+</head>
+<body>
+<button type="button" class="layui-btn" id="getForm">getForm</button>
+
+<script src="asset/layui/layui.js"></script>
+<script src="asset/js/plugins/jquery-2.1.4.min.js"></script>
+<script>
+  layui.use(['layer','form','rate'],function () {
+    var layer=layui.layer;
+    var form = layui.form;
+    var rate=layui.rate;
+    $("#getForm").click(function () {
+      layer.open({
+        type: 1,
+        area: ['700px', '450px'],
+        fixed: false, //不固定
+        maxmin: true,
+        title:"本次体验",
+        content: '<form class="layui-form">\n' +
+                '    <div>\n' +
+                '      <label class="layui-form-label">对本次练习体验进行评价</label>\n' +
+                '      <div class="layui-input-block">\n' +
+                '        <div id="test1"></div>\n' +
+                '      </div>\n' +
+                '    </div>\n' +
+                '\n' +
+                '    <div class="layui-form-item">\n' +
+                '      <label class="layui-form-label">是否愿意将此题推荐给其他用户</label>\n' +
+                '      <div class="layui-input-block">\n' +
+                '        <input type="checkbox" name="switch" lay-skin="switch" id="isRecommend">\n' +
+                '      </div>\n' +
+                '    </div>\n' +
+                '\n' +
+                '\n' +
+                '    <div class="layui-form-item layui-form-text">\n' +
+                '      <label class="layui-form-label">我的想法</label>\n' +
+                '      <div class="layui-input-block">\n' +
+                '        <textarea name="desc" placeholder="如果你有什么好的想法，我们会积极的采纳" class="layui-textarea" id="myIdea" style="width: 500px"></textarea>\n' +
+                '      </div>\n' +
+                '    </div>\n' +
+                '\n' +
+                '    <div class="layui-form-item">\n' +
+                '      <div class="layui-input-block">\n' +
+                '        <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>\n' +
+                '        <button type="reset" class="layui-btn layui-btn-primary">重置</button>\n' +
+                '      </div>\n' +
+                '    </div>\n' +
+                '  </form>'
+      });
+      rate.render({
+        elem: '#test1'  //绑定元素
+        ,choose: function(value){
+          sessionStorage.setItem("star",value);
+        }
+      });
+      form.render();
+      form.on('submit(formDemo)', function(data){
+        console.log("星数："+sessionStorage.star);
+        console.log(data.field.switch);
+        console.log(data.field.desc);
+        return false;
+      });
+    })
+  })
+</script>
+</body>
+</html>

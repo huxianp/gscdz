@@ -1,0 +1,8 @@
+.layui-layout-admin .layui-body {
+    background-color: #eee;
+}
+#logo{
+    height: 50px;
+    width: 268px;
+    margin-left: -10px;
+}

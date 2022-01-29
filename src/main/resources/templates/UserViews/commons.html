@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>commons</title>
+
+</head>
+<body>
+<header th:fragment="headerbar">
+    <link rel="stylesheet" type="text/css" th:href="@{/asset/css/user/header.css}">
+<div id="web-nav-container">
+    <div id="m-navTop-func">
+        <div id="m-navTop-func-i">
+            <div id="u-navLogin-container">
+                <div class="u-navLogin-logo new-nav-spoc-logo">
+                    <a th:href="@{/getUserHome}">
+                        <img th:src="@{/asset/images/logo.png}" style="width: 133px;margin-left: 29px;">
+                    </a>
+                </div>
+                <div class="e-hover-quiz u-navLogin-quiz">
+                    <a th:href="@{/quiz/}" target="_top">
+                        <span class="nav">提问</span>
+                    </a>
+
+                </div>
+                <div class="u-navLogin-practice normal">
+                    <a th:href="@{/solvedProblem/test}" target="_top">
+                        <span class="nav">练习</span>
+                    </a>
+                </div>
+                <div class="u-navLogin-p normal">
+                    <a th:href="@{/solvedProblem/offer}" target="_top">
+                        <span class="nav">提供题目</span>
+                    </a>
+                </div>
+                <div class="u-navLogin-p normal">
+                    <a th:href="@{/solvedProblem/ctj}" target="_top">
+                        <span class="nav">错题集</span>
+                    </a>
+                </div>
+                <div class="u-navLogin-xiazai normal">
+                    <a href="#" target="_top"> <span class="nav"> 下载APP(暂无)
+						</span>
+                    </a>
+                </div>
+
+                <div class="web-nav-right-part">
+                    <div class="u-navLogin-searchFunc"></div>
+                    <a href="/logout">退出</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</header>
+<footer th:fragment="footerbar">
+    <link>
+    <div id="footer">
+        <style>
+            #footer{
+                position:relative;
+                top:200px;
+                height:200px;
+                background-color:#000000;
+                color:white;
+            }
+            #footerText{
+                position:relative;
+                top:50px;
+                font-size:30px;
+                text-align:center;
+            }
+        </style>
+        <p id="footerText"> 关于我们<br/>我们旨在做一个帮助学习高数学习的网站</p>
+    </div>
+</footer>
+</body>
+</html>

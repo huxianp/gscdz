@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+    <!--start of js-->
+    <script type="text/javascript" th:src="@{http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML-full}"></script>
+    <script type="text/javascript" th:src="@{/asset/js/plugins/mathJax-config.js}"></script>
+    <script type="text/javascript" th:src="@{/asset/js/plugins/jquery-2.1.4.min.js}"></script>
+    <script type="text/javascript" th:src="@{/asset/js/plugins/bootstrap.min.js}"></script>
+    <script type="text/javascript" th:src="@{/asset/js/plugins/sweetalert.min.js}"></script>
+    <script type="text/javascript" th:src="@{/asset/js/user/offer.js}"></script>
+    <script type="text/javascript" th:src="@{/asset/layui/layui.all.js}"></script>
+    <script type="text/javascript" th:src="@{/asset/js/plugins/elseInputMethod.js}"></script>
+    <!--end of js-->
+
+    <!--start of css-->
+    <link rel="stylesheet" th:href="@{/asset/css/user/offer.css}">
+    <link rel="stylesheet" th:href="@{/asset/css/plugins/sweetalert.css}">
+    <link rel="stylesheet" th:href="@{/asset/css/plugins/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/asset/layui/css/layui.css}">
+    <!--end of css-->
+<title>offer</title>
+</head>
+<body>
+<header th:replace="UserViews/commons::headerbar"></header>
+
+<div id="web-body-container">
+    <div id="middle">
+            <div class="problem-container">
+                <!--题目-->
+                <div class="layui-row item">
+                    <div class="layui-col-md2">
+                        <div class="title">题目:</div>
+                    </div>
+                    <div class="layui-col-md10">
+                        <div class="content-container">
+                            <div id="subject" contenteditable="true">$题目：$</div>
+                        </div>
+                    </div>
+                </div>
+                <!--解决方案-->
+                <div class="layui-row item">
+                    <div class="layui-col-md2">
+                        <div class="title">解决方案:</div>
+                    </div>
+                    <div class="layui-col-md10">
+                        <div class="content-container">
+                            <div id="solution" contenteditable="true">$答案：$</div>
+                        </div>
+                    </div>
+                </div>
+                <!--分析-->
+                <div class="layui-row item">
+                    <div class="layui-col-md2">
+                        <div class="title">分析:</div>
+                    </div>
+                    <div class="layui-col-md10">
+                        <div class="content-container">
+                            <div id="analysis" contenteditable="true"></div>
+                        </div>
+                    </div>
+                </div>
+                <!--提示-->
+                <div class="layui-row item">
+                    <div class="layui-col-md2">
+                        <div class="title">提示:</div>
+                    </div>
+                    <div class="layui-col-md10">
+                        <div class="content-container">
+                            <div id="tips" contenteditable="true"></div>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-left: 50%; margin-top: 50px">
+                <button class="layui-btn layui-btn-normal" id="submit-btn">提交</button>
+                </div>
+            </div>
+    </div>
+</div>
+
+<footer th:replace="UserViews/commons::footerbar"></footer>
+    <script>
+            generate("subject");
+            generate("solution");
+    </script>
+</body>
+</html>

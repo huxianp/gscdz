@@ -1,0 +1,41 @@
+#result span{
+    display:block;
+    text-align:center;
+    line-height:80px;
+    width: 800px;
+    border:1px dashed #aaa;
+    margin:0 20px 20px 0;
+}
+
+myscript-math-web {
+    border:1px solid black;
+    height: 800px;
+    width:1200px;
+}
+#myScript-text{
+    border: 1px solid black;
+    width: 800px;
+}
+
+.myScript-container{
+    margin-left: 100px;
+    margin-top: 50px;
+}
+.tool-btn{
+    margin-left: 35%;
+}
+#toolBtn-container{
+    margin-top: 10px;
+}
+.math-text-btn{
+    margin-top: 10px;
+    margin-left: 10px;
+}
+#addToInput{
+    margin-top: 200px;
+    margin-left: 25%;
+}
+#uploadFile{
+    width: 800px !important;
+    height: 250px !important;
+}

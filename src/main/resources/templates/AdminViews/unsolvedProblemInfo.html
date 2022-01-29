@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+
+<head>
+  <meta charset="UTF-8">
+  <title>用户讨论管理</title>
+  <script type="text/javascript" th:src="@{/asset/js/plugins/jquery-2.1.4.min.js}"></script>
+  <script type="text/javascript" th:src="@{/asset/js/plugins/echarts.js}"></script>
+  <script type="text/javascript" th:src="@{/asset/js/admin/common.js}"></script>
+  <script type="text/javascript" th:src="@{/asset/js/admin/unSolProblemInfo.js}"></script>
+  <script type="text/javascript" th:src="@{/asset/layui/layui.js}"></script>
+  <script type="text/javascript" th:src="@{/asset/layui/layui.all.js}"></script>
+
+  <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
+  <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
+
+  <link rel="stylesheet" th:href="@{/asset/layui/css/layui.css}" media="all">
+  <style>
+    body{margin: 10px;}
+    #album-search-input{
+      width: 80% !important;
+      position: relative;
+      margin-left: 99px;
+    }
+    #search-btn{
+      position: absolute;
+      right: 48px;
+      top: 1px;
+    }
+    #zq_search{
+      margin-bottom: 35px;
+    }
+    #title{
+      text-align: center;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+    #uploadFile{
+      margin-left: 70px;
+      margin-top: 20px;
+    }
+    #tipWords{
+      margin-left: 72px;
+      margin-top: 18px;
+    }
+    #stacked-link{
+      height: 400px;
+      width: 550px;
+      margin-left: 100px;
+    }
+    #pie-chart{
+      height: 500px;
+      width: 600px;
+      margin-left: 150px;
+      position: absolute !important;
+      top: 100px;
+      left: 600px;
+      margin-top: 80px;
+    }
+    #formTitle{
+      text-align: center;
+      font-size: 43px;
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
+    #submit-btn{
+      margin-left: 25%;
+    }
+    .layui-row{
+      margin-top: 20px;
+    }
+    .titleContainer{
+      font-size: 20px;
+      margin-left: 20px;
+    }
+
+  </style>
+</head>
+<h1 id="title">用户讨论管理</h1>
+
+
+<body class="layui-anim layui-anim-up">
+
+
+
+<div class="x-body">
+  <div class="layui-row">
+    <form class="layui-form layui-col-md12 x-so" id="zq_search">
+      <label for="album-search-input" class="layui-form-label">搜索题目：</label>
+      <input id="album-search-input" type="text" name="name"  placeholder="请输入题目信息" autocomplete="off" class="layui-input">
+      <button id="search-btn" class="layui-btn"  lay-submit="" lay-filter="search"><i class="layui-icon">&#xe615;</i></button>
+    </form>
+  </div>
+
+  <div id="charts-container"style="height: 500px;margin-top:50px">
+    <div id="stacked-link"></div>
+    <div id="pie-chart"></div>
+  </div>
+
+  <table class="layui-hide" id="zq_table" lay-filter="zq_table"></table>
+</div>
+
+
+<!-- 这里放CRUD行工具栏按钮 id和table行的toolbar属性绑定-->
+<script type="text/html" id="zq_bar">
+  <a class="layui-btn layui-btn-primary layui-btn-xs" title="查看" lay-event="detail"><i class="layui-icon">&#xe63c;</i></a>
+  <a class="layui-btn layui-btn-xs" lay-event="edit" title="添加到系统题库"><i class="layui-icon">&#xe642;</i></a>
+</script>
+
+<!--_footer 作为公共模版分离出去-->
+
+
+<script>
+    $.ajax({
+      url:"/quiz/getStaticInfo",
+      method:"get",
+      dataType:"json",
+      contentType:"application/json;charset=UTF-8",
+      success:function (res) {
+        renderChart(res);
+      },
+      error:function () {
+        console.log("error");
+      }
+    })
+    function bubbleSort(arr) {
+      var len = arr.length;
+      for(var i = 0; i < len - 1; i++) {
+        for(var j = 0; j < len - 1 - i; j++) {
+          if(arr[j][0] > arr[j+1][0]) {
+            var temp = arr[j+1];
+            arr[j+1] = arr[j];
+            arr[j] = temp;
+          }
+        }
+      }
+      return arr;
+    }
+    function renderChart(data){
+      let kpStatistic=data.info.kpStatistic;
+      let pieData=new Array();
+      let answerStatistic=data.info.answerStatistic;
+      let timeStatic=data.info.timeStatic;
+      let totalTime=new Array();
+      let timeData=new Array();
+      let answerData=new Array();
+      console.log(kpStatistic);
+      console.log(answerStatistic);
+      console.log(timeStatic);
+
+
+    for(var val in answerStatistic){
+      if(totalTime.indexOf(val)==-1){
+        totalTime.push(val);
+      }
+      let singlePointData=new Array();
+      singlePointData.push(val);
+      singlePointData.push(answerStatistic[val])
+      answerData.push(singlePointData);
+    }
+
+
+    for(var val in timeStatic){
+      if(totalTime.indexOf(val)==-1){
+        totalTime.push(val);
+      }
+      let singlePointData=new Array();
+      singlePointData.push(val);
+      singlePointData.push(timeStatic[val])
+      timeData.push(singlePointData);
+    }
+
+
+    for(var val in kpStatistic){
+        var jsonObj={}
+        jsonObj.name=val;
+        jsonObj.value=kpStatistic[val];
+        pieData.push(jsonObj)
+      }
+
+
+
+    renderStackedLine(totalTime,timeData,answerData);//折线图
+    renderPieChart(pieData);//饼状图
+  }
+    function renderStackedLine(totalTime,timeData,answerData){
+
+    var chartDom = document.getElementById('stacked-link');
+    var myChart = echarts.init(chartDom);
+    var option;
+
+    option = {
+      title: {
+        text: '每日提问和回答的统计图',
+        left: 'center'
+      },
+      tooltip: {
+        trigger: 'axis'
+      },
+      legend: {
+        data: ['回答数量','提问数量']
+      },
+      grid: {
+        left: '3%',
+        right: '4%',
+        bottom: '3%',
+        containLabel: true
+      },
+      toolbox: {
+        feature: {
+          saveAsImage: {}
+        }
+      },
+      xAxis: {
+        type: 'category',
+        boundaryGap: false,
+        nameTextStyle: {
+          fontSize: 12,
+          color:'#333333',
+          fontWeight: 'bold'
+        },
+        axisLabel : {
+           clickable:true,
+          interval: 0,
+          rotate: 40,
+        },
+        data: totalTime.sort()
+      },
+      yAxis: {
+        type: 'value'
+      },
+      series: [
+        {
+          name: '每日提问量',
+          type: 'line',
+          stack: 'Total',
+          data: bubbleSort(timeData)
+        },
+        {
+          name: '每日回答量',
+          type: 'line',
+          stack: 'Total',
+          data: bubbleSort(answerData)
+        }
+      ]
+    };
+
+    option && myChart.setOption(option);
+  }
+    function renderPieChart(pieData){
+    var chartDom = document.getElementById("pie-chart");
+    var myChart = echarts.init(chartDom);
+    var option;
+
+    option = {
+      title: {
+        left: 'center',
+        text: '提问相关知识点统计图'
+      },
+      tooltip: {
+        trigger: 'item'
+      },
+      legend: {
+        top: '5%',
+        left: 'center'
+      },
+      series: [
+        {
+          name: 'Access From',
+          type: 'pie',
+          radius: ['40%', '70%'],
+          avoidLabelOverlap: false,
+          label: {
+            show: false,
+            position: 'center'
+          },
+          emphasis: {
+            label: {
+              show: true,
+              fontSize: '20',
+              fontWeight: 'bold'
+            }
+          },
+          labelLine: {
+            show: false
+          },
+          data: pieData
+        }
+      ]
+    };
+
+    option && myChart.setOption(option);
+  }
+
+</script>
+</body>
+</html>

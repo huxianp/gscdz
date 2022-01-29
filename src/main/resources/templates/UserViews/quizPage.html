@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+<meta charset="UTF-8">
+<title>quiz</title>
+</head>
+<style>
+    #elseMethods:link{
+        color: #00FF00;
+    }
+    #elseMethods:hover{
+        color: white;
+    }
+</style>
+<body>
+<header th:replace="UserViews/commons::headerbar"></header>
+
+<div id="middle">
+    <div id="Container">
+        <div id="tabCon">
+            <table class="table table-striped">
+
+                <thead>
+                <tr>
+                    <td>编号</td>
+                    <td>题目</td>
+                    <td>相关知识点</td>
+                    <td>访问数/解答数</td>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="problem:${usPros}">
+                    <td th:text="${problem.id}">p.getId()</td>
+                    <td th:text="${problem.subject}">p.getSubject()</td>
+                    <td th:each="kp:${problem.relevantKps}"><span th:utext="${kp.title}+'/'"></span></td>
+                    <td th:text="${problem.visitTimes}+'/'+${problem.answerNum}"></td>
+                    <td><a th:href="@{'/quiz/getProDetails/'+${problem.id}}">查看详情</a></td>
+                </tr>
+                </tbody>
+            </table>
+            <div>
+                <svg t="1623590946593" id="leftIcon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2929" width="16" height="16"><path d="M324.211517 511.805631 787.889594 73.082583c16.19422-16.630365 16.19422-43.974704 0-60.605068-16.19422-16.630365-42.495607-16.630365-58.613976 0L235.750113 479.360302c-8.647031 8.969398-12.344775 20.934917-11.719003 32.445329-0.644735 11.90863 3.071972 23.874149 11.719003 32.824585l493.506542 466.882788c16.118369 16.649327 42.438718 16.649327 58.613976 0 16.19422-17.085471 16.19422-43.974704 0-60.605068L324.211517 511.805631" p-id="2930" fill="#2c2c2c"></path></svg>
+                <span id="pageInf" th:utext="'全部页数：'+${pageNums}+'页，'+'当前页数：'+${currentPageNum}+'页'"></span>
+                <span id="currentPage" th:text="${currentPageNum}" hidden></span><span id="maxPage" th:text="${pageNums}" hidden></span>
+                <svg t="1623590834676" id="rightIcon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2734" width="16" height="16"><path d="M801.548285 510.271032L301.254151 1010.360574c-18.242732 18.242732-47.73799 18.106338-65.844327-0.306887a47.226511 47.226511 0 0 1 0.272788-66.389904l433.358652-433.154061L235.784908 80.356335A47.192413 47.192413 0 0 1 235.307528 13.966431 46.30585 46.30585 0 0 1 301.151856 13.454952l500.396429 496.81608z" fill="" p-id="2735"></path></svg>
+
+            </div>
+            <button id="btn-quiz" class="btn">我要提问</button>
+            </div>
+        <div id="pagCon">
+
+            <div id="pageHeader" >问题提交
+            </div>
+            <div id="pageContent">
+                <div id="pageContent-Tool">
+                    <button class="toolBtn">$\infty$</button>
+                    <button class="toolBtn">$\cup$</button>
+                    <button class="toolBtn">$\cap$</button>
+                    <button class="toolBtn">$\in$</button>
+                    <button class="toolBtn">$\notin$</button>
+                    <button class="toolBtn">$\varnothing$</button>
+                    <button class="toolBtn">$\forall$</button>
+                    <button class="toolBtn">$\exists$</button>
+                    <button class="toolBtn">$\nabla$</button>
+                    <button class="toolBtn">$\partial$</button>
+                    <button class="toolBtn" id="sum">$\sum$</button>
+                    <button class="toolBtn" id="int">$\int$</button>
+                    <button class="toolBtn" id="sqrt">$\sqrt[x]{y}$</button>
+                    <button class="toolBtn" id="frac">$\frac{x}{y}$</button>
+                </div>
+                <div id="MathDiv" contenteditable="true">$：$</div>
+                <div id="chapterSelect" class="dropdown">
+                    <button type="button" class="btn dropdown-toggle" id="dropdownMenu1"
+                            data-toggle="dropdown">
+                        请选择相关章节
+                        <span class="caret"></span>
+                    </button>
+                    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                        <li role="presentation" class="disabled">
+                            <a role="menuitem" tabindex="-1" href="#">以下为相关章节</a>
+                        </li>
+                        <li role="presentation" class="divider"></li>
+                        <li role="presentation" th:each="chapter:${session.chapters}">
+                            <a  class="chapter-name" role="menuitem" tabindex="-1"  th:text="${chapter.id}+'|'+${chapter.title}"></a>
+                        </li>
+
+                    </ul>
+                </div>
+                <div id="knowledgePoints-Select" class="dropdown">
+                    <button type="button" class="btn dropdown-toggle" id="dropdownMenu2"
+                            data-toggle="dropdown">
+                        请选择相关知识点
+                        <span class="caret"></span>
+                    </button>
+                    <ul id="kpsul" class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu2">
+                        <li role="presentation" class="disabled">
+                            <a role="menuitem" tabindex="-1" href="#">以下为相关知识点</a>
+                        </li>
+                        <li role="presentation" class="divider"></li>
+                    </ul>
+                </div>
+            </div>
+            <div id="pageFooter">
+                <button id="btn-submit" class="btn1">提交</button>
+                <button id="btn-back" class="btn1">取消</button>
+            </div>
+
+        </div>
+
+
+    </div>
+
+</div>
+
+<footer th:replace="UserViews/commons::footerbar"></footer>
+</body>
+<!--start of js-->
+<script type="text/javascript" th:src="@{http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML-full}"></script>
+<script type="text/javascript" th:src="@{/asset/js/plugins/mathJax-config.js}"></script>
+<script type="text/javascript" th:src="@{/asset/js/plugins/jquery-2.1.4.min.js}"></script>
+<script type="text/javascript" th:src="@{/asset/js/plugins/bootstrap.min.js}"></script>
+<script type="text/javascript" th:src="@{/asset/js/plugins/dialog.min.js}"></script>
+<script type="text/javascript" th:src="@{/asset/js/plugins/sweetalert.min.js}"></script>
+<script type="text/javascript" th:src="@{/asset/js/user/quizPage.js}"></script>
+<script type="text/javascript" th:src="@{/asset/layui/layui.all.js}"></script>
+<script type="text/javascript" th:src="@{/asset/js/plugins/elseInputMethod.js}"></script>
+<!--end of js-->
+
+<!--start of css-->
+<link rel="stylesheet" th:href="@{/asset/css/user/quizPage.css}">
+<link rel="stylesheet" th:href="@{/asset/css/plugins/bootstrap.min.css}">
+<link rel="stylesheet" th:href="@{/asset/css/plugins/sweetalert.css}">
+<link rel="stylesheet" th:href="@{/asset/css/plugins/dialog.css}">
+<link rel="stylesheet" th:href="@{/asset/layui/css/layui.css}">
+<!--end of css-->
+
+<script>
+    <!--initialize else Input Methods-->
+    generate("MathDiv");
+</script>
+</html>

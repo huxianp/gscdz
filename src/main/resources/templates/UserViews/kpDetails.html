@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+    <!--start of js-->
+    <script type="text/javascript" th:src="@{http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML-full}"></script>
+    <script type="text/javascript" th:src="@{/asset/js/plugins/mathJax-config.js}"></script>
+    <script type="text/javascript" th:src="@{/asset/js/plugins/jquery-2.1.4.min.js}"></script>
+    <script type="text/javascript" th:src="@{/asset/js/plugins/bootstrap.min.js}"></script>
+    <script type="text/javascript" th:src="@{/asset/js/user/kpDetails.js}"></script>
+
+    <!--end of js-->
+
+    <!--start of css-->
+    <link rel="stylesheet" th:href="@{/asset/css/user/kpDetails.css}">
+    <link rel="stylesheet" th:href="@{/asset/css/plugins/bootstrap.min.css}">
+    <!--end of css-->
+<title>Insert title here</title>
+</head>
+<body>
+<header th:replace="UserViews/commons::headerbar"></header>
+<div id="web-body-container">
+    <div style="background-color: #f5f5f5">
+        <div id="kpnav">
+            <div id="kpcontainer">
+                <span hidden="hidden" id="chapterId" th:text="${chapter.id}"></span>
+                <h3 class="title" th:text="${chapter.title}"></h3>
+                <span class="subtitle" role="button">全部</span>
+                <span class="subtitle" role="button"  th:each="kp:${chapter.kpSet}" th:text="${kp.title}"></span>
+                <span hidden="hidden" class="kpId" th:each="kp:${chapter.kpSet}" th:text="${kp.id}"></span>
+            </div>
+        </div>
+        <div id="middlePart">
+            <div id="infor" th:utext="${text}">
+            </div>
+        </div>
+    </div>
+</div>
+<footer th:replace="UserViews/commons::footerbar"></footer>
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>User Information</title>
+    <!--start of js-->
+    <script type="text/javascript" th:src="@{http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML-full}"></script>
+    <script type="text/javascript" th:src="@{/asset/js/plugins/mathJax-config.js}"></script>
+    <script type="text/javascript" th:src="@{/asset/js/plugins/jquery-2.1.4.min.js}"></script>
+    <script type="text/javascript" th:src="@{/asset/js/plugins/bootstrap.min.js}"></script>
+    <script type="text/javascript" th:src="@{/asset/js/user/selfInf.js}"></script>
+
+    <!--end of js-->
+
+    <!--start of css-->
+    <link rel="stylesheet" th:href="@{/asset/css/user/selfInf.css}">
+    <link rel="stylesheet" th:href="@{/asset/css/plugins/bootstrap.min.css}">
+    <!--end of css-->
+</head>
+<body>
+<header th:replace="UserViews/commons::headerbar"></header>
+<div id="web-body-container">
+    <div id="selfInfor-container">
+        <div id="div1">
+            <div id="img">
+                <img id="avatar" th:src="@{/user/getAvatar}">
+            </div>
+            <div id="selfInfor">
+                <span id="username"></span> <br />
+                <span id="roleAndScho" th:utext="${customUser.nickName}+'&nbsp;&nbsp;<span>|&nbsp;</span>school'"></span>
+
+
+            </div>
+            <div class="svgContainer" id="svgCon1">
+                <svg id="svg1" class="icon svg" viewBox="0 0 1024 1024"
+                     version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="3567"
+                     width="200" height="200">
+                    <path
+                            d="M721.5 133.2l169.7 169.7-552.4 552.5-211.7 41.3 42-210.9 552.4-552.6m0-56.5L132.2 666l-56 281.3 282.2-55 589.4-589.4L721.5 76.7zM619 179.2l-28.3 28.3L817 433.8l28.3-28.3L619 179.2z m-52.4 52.4l-28.3 28.3 226.3 226.3 28.3-28.3-226.3-226.3zM160.2 638l-28.3 28.3 226.3 226.3 28.3-28.3L160.2 638z m452-314.1L222.6 713.5l28.3 28.3 389.6-389.6-28.3-28.3z m60.1 60.1L282.7 773.6l28.3 28.3 389.6-389.6-28.3-28.3z"
+                            fill="#ffffff" p-id="3568"></path></svg>
+                <span class="svgFont" th:utext="'解答/创建题目<br/>'+${customUser.solvedProblemNum}+'&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;&nbsp;'+${customUser.unsolvedProblems.size()}"></span>
+            </div>
+            <div class="svgContainer" id="svgCon2">
+                <svg id="svg2" class="icon svg" viewBox="0 0 1024 1024"
+                     version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2527"
+                     width="200" height="200">
+                    <path
+                            d="M64 928h192V453.1H64V928z m891.1-461.4c-5.5-8.4-14.9-13.5-24.9-13.5H625.5V181.8c0-47.3-38.4-85.8-85.6-85.8h-55.8c-47.2 0-85.6 38.5-85.6 85.8v161.7c0 0.7 0 1.4 0.1 2.1 0 0.4 1.9 40.2-26.3 70.5-12.9 13.9-30.4 23.9-52.3 30v482h442.9c11.9 0 22.8-7.1 27.4-18.1l167.3-415c3.9-9.4 3-20-2.5-28.4z"
+                            fill="#ffffff" p-id="2528"></path></svg>
+                <span class="svgFont" th:utext="'解答获赞数<br>'+${pros}">
+					</span>
+            </div>
+        </div>
+    </div>
+    <div id="middle">
+
+        <div id="web-module-tab">
+            <a class="module-Pattern" id="u-create">我创建的题目</a>
+            <a class="module-Pattern" id="u-material">我的资料</a>
+            <div id="inner">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>问题</th>
+                        <th>操作</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="unsolvedProblem:${customUser.unsolvedProblems}">
+                            <th th:text="${unsolvedProblem.id}"></th>
+                            <th th:text="${unsolvedProblem.subject}"></th>
+                            <th>
+                                <a th:href="@{'/quiz/getProDetails/'+${unsolvedProblem.id}}">查看详情</a>
+                                <span>/</span>
+                                <a th:href="@{'/quiz/deletePro/'+${unsolvedProblem.id}}" style="color: #d51515">删除</a></th>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<footer th:replace="UserViews/commons::footerbar"></footer>
+</body>
+</html>

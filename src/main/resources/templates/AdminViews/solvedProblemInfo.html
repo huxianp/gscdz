@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+
+<head>
+    <meta charset="UTF-8">
+    <title>题库问题管理</title>
+
+    <link rel="stylesheet" th:href="@{/asset/layui/css/layui.css}" media="all">
+    <style>
+        body{margin: 10px;}
+        #album-search-input{
+            width: 80% !important;
+            position: relative;
+            margin-left: 99px;
+        }
+        #search-btn{
+            position: absolute;
+            right: 48px;
+            top: 1px;
+        }
+        #zq_search{
+            margin-bottom: 35px;
+        }
+        #title{
+            text-align: center;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+        #uploadFile{
+            margin-left: 70px;
+            margin-top: 20px;
+        }
+        #tipWords{
+            margin-left: 100px;
+            margin-top: 18px;
+        }
+        .problemInfo{
+            text-align: center;
+            font-size: 18px;
+            margin-top: 6px;
+        }
+
+    </style>
+</head>
+<h1 id="title">题库管理</h1>
+
+
+<body class="layui-anim layui-anim-up">
+
+
+<div class="x-body">
+    <div class="layui-row">
+        <form class="layui-form layui-col-md12 x-so" id="zq_search">
+            <label for="album-search-input" class="layui-form-label">搜索题目：</label>
+            <input id="album-search-input" type="text" name="name"  placeholder="请输入题目的相关信息" autocomplete="off" class="layui-input">
+            <button id="search-btn" class="layui-btn"  lay-submit="" lay-filter="search"><i class="layui-icon">&#xe615;</i></button>
+        </form>
+    </div>
+
+    <div id="main" style="margin-left:300px;width:800px; height: 600px;"></div>
+
+    <table class="layui-hide" id="zq_table" lay-filter="zq_table"></table>
+</div>
+
+
+<!-- 这里放头工具栏按钮 id和table头的toolbar属性绑定-->
+<script type="text/html" id="zq_toolbar">
+    <div class="layui-btn-container">
+        <button class="layui-btn layui-btn-primary layui-btn-sm" lay-event="add"><i class="layui-icon">&#xe624;</i>批量添加</button>
+        <!--<button class="layui-btn layui-btn-danger layui-btn-sm" lay-event="delAll"><i class="layui-icon"></i>批量删除</button>-->
+    </div>
+</script>
+
+<!-- 这里放CRUD行工具栏按钮 id和table行的toolbar属性绑定-->
+<script type="text/html" id="zq_bar">
+    <a class="layui-btn layui-btn-primary layui-btn-xs" title="查看题目详情" lay-event="detail"><i class="layui-icon">&#xe63c;</i></a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del" title="删除该题目"><i class="layui-icon">&#xe640;</i></a>
+</script>
+
+<!--_footer 作为公共模版分离出去-->
+
+        <!--start of js file-->
+            <script type="text/javascript" th:src="@{http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML-full}"></script>
+            <script type="text/javascript" th:src="@{/asset/js/plugins/mathJax-config.js}"></script>
+            <script type="text/javascript" th:src="@{/asset/js/plugins/jquery-2.1.4.min.js}"></script>
+            <script type="text/javascript" th:src="@{/asset/js/plugins/echarts.js}"></script>
+            <script type="text/javascript" th:src="@{/asset/js/admin/common.js}"></script>
+            <script type="text/javascript" th:src="@{/asset/js/admin/solproblemInfo.js}"></script>
+            <script type="text/javascript" th:src="@{/asset/layui/layui.js}"></script>
+            <script type="text/javascript" th:src="@{/asset/layui/layui.all.js}"></script>
+        <!--start of js file-->
+<script>
+
+    function renderCharts(basicInfo) {
+
+        var chartDom = document.getElementById('main');
+        var myChart = echarts.init(chartDom);
+        var option;
+
+        const data = generateData(basicInfo);
+        option = {
+            title: {
+                text: '题目知识点统计',
+                left: 'center'
+            },
+            tooltip: {
+                trigger: 'item',
+                formatter: '{a} <br/>{b} : {c} ({d}%)'
+            },
+            legend: {
+                type: 'scroll',
+                orient: 'vertical',
+                right: 10,
+                top: 20,
+                bottom: 20,
+                data: data.legendData
+            },
+            series: [
+                {
+                    name: '题目相关知识点',
+                    type: 'pie',
+                    radius: '55%',
+                    center: ['40%', '50%'],
+                    data: data.seriesData,
+                    emphasis: {
+                        itemStyle: {
+                            shadowBlur: 10,
+                            shadowOffsetX: 0,
+                            shadowColor: 'rgba(0, 0, 0, 0.5)'
+                        }
+                    }
+                }
+            ]
+        };
+
+
+        option && myChart.setOption(option);
+
+    }
+    function generateData(data){
+        let nameArray=new Array();
+        let valueArray=new Array();
+        data.data.forEach(info=>{
+            let kpArray=info.knowledgePoints.split("  ");
+            kpArray.forEach(kp=>{
+                let index=nameArray.indexOf(kp);
+                if(index>-1){
+                    valueArray[index]+=1;
+                }else{
+                    nameArray.push(kp);
+                    valueArray.push(1);
+                }
+            })
+        })
+        let resultArray=new Array();
+        for(let i=0;i<nameArray.length;++i){
+            let jsonObj={};
+            jsonObj.name=nameArray[i];
+            jsonObj.value=valueArray[i]
+            resultArray.push(jsonObj);
+        }
+        return {
+            legendData: nameArray,
+            seriesData: resultArray
+        };
+
+    }
+
+
+</script>
+
+</body>
+</html>

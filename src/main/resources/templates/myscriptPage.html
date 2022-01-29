@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>MyScript</title>
+  <!--css of text-->
+  <link rel="stylesheet" href="asset/js/plugins/textOCR/dist/myscript.min.css"/>
+  <link rel="stylesheet" href="asset/js/plugins/textOCR/dist/myscript_text.css">
+  <link rel="stylesheet" href="asset/layui/css/layui.css" media="all">
+  <link rel="stylesheet" href="asset/css/plugins/sweetalert.css">
+  <!--end of text-->
+
+
+</head>
+<body touch-action="none">
+<div id="container">
+    <div id="toolBtn-container">
+        <div class="layui-row">
+            <div class="layui-col-xs4">
+                <div class="grid-demo">
+                    <button id="show-text" type="button" class="layui-btn layui-btn-primary tool-btn">手写输入文字</button>
+                </div>
+            </div>
+            <div class="layui-col-xs4">
+                <div class="grid-demo">
+                    <button id="show-math" type="button" class="layui-btn layui-btn-primary tool-btn">手写输入数学公式</button>
+                </div>
+            </div>
+            <div class="layui-col-xs4">
+                <div class="grid-demo">
+                    <button id="show-pic" type="button" class="layui-btn layui-btn-primary tool-btn">图片输入</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="myScript-math" class="myScript-container" >
+        <myscript-math-web
+                scheme="http"
+                host="webdemoapi.myscript.com"
+                type="MATH"
+                timeout="2000"
+                applicationkey="1526f528-7d79-440f-91e8-0b4453419fe1"
+                hmackey="9165b016-e2eb-4354-92b0-4f860b8ab8d5"
+                mimetypes='["application/x-latex", "application/vnd.myscript.jiix"]'
+        >
+        </myscript-math-web>
+        <p class="tipWords">您可以在上面的inkPaper中画出你要输入的式子</p>
+    </div>
+    <div id="myScript-text"  class="myScript-container" hidden >
+        <button id="trash" class="layui-btn layui-btn-danger math-text-btn" disabled>Trash</button>
+        <button id="undo" class="layui-btn layui-btn-warm math-text-btn" disabled>Undo</button>
+        <button id="redo" class="layui-btn layui-btn-normal math-text-btn" disabled>Redo</button>
+        <label for="languages">Language: </label>
+        <select id="languages" disabled></select>
+        <br/>
+        <div id="ink-paper"></div>
+        <br/>
+        <p class="tipWords">您可以在上面的inkPaper中画出你要输入的文字</p>
+        <pre id="result" style="font-size: 40px"></pre>
+
+    </div>
+    <div id="picture-input" class="myScript-container" hidden>
+        <div class="layui-upload-drag" id="uploadFile">
+            <i class="layui-icon"></i>
+            <p>点击上传，或将文件拖拽到此处</p>
+        </div>
+        <div id="pictResult">
+            <img class="layui-upload-img" id="demo1">
+            <p id="recongniseResult">识别结果：${\sum ^{N}_{z=0}\int ^{b}_{a}g(t,i)dt}$</p>
+        </div>
+    </div>
+
+</div>
+<button class="layui-btn layui-btn-lg layui-btn-normal" id="addToInput">将识别结果添加到输入框中</button>
+</body>
+<!--js of text-->
+<script type="text/javascript" src="asset/js/plugins/textOCR/cryptojslib/components/core-min.js"></script>
+<script type="text/javascript" src="asset/js/plugins/textOCR/cryptojslib/components/x64-core-min.js"></script>
+<script type="text/javascript" src="asset/js/plugins/textOCR/cryptojslib/components/sha512-min.js"></script>
+<script type="text/javascript" src="asset/js/plugins/textOCR/cryptojslib/components/hmac-min.js"></script>
+<script type="text/javascript" src="asset/js/plugins/textOCR/q/q.js"></script>
+<script type="text/javascript" src="asset/js/plugins/textOCR/pepjs/dist/pep.min.js"></script>
+<script type="text/javascript" src="asset/js/plugins/textOCR/dist/myscript.min.js"></script>
+<script type="text/javascript" src="asset/js/plugins/textOCR/dist/initialMyScript.js"></script>
+<!--end of text-->
+
+<!--start of math-->
+<script type="module" src="asset/js/plugins/mathOCR/plugins/myscript-math-web/myscript-math-web.js"></script>
+<script src="asset/js/plugins/mathOCR/plugins/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
+<script src="asset/js/plugins/jquery-2.1.4.min.js"></script>
+<!--end of math-->
+
+<script type="text/javascript" src="asset/layui/layui.all.js"></script>
+<script type="text/javascript" src="asset/js/plugins/sweetalert.min.js"></script>
+<script type="text/javascript" th:src="@{http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML-full}"></script>
+<script type="text/javascript" src="asset/js/plugins/mathJax-config.js"></script>
+<script>
+    window.onload=function(){
+        initialMathJax();
+    }
+    let isText=false;
+    let isMath=true;
+    let isPic=false;
+  $("#show-text").click(function(){
+      isText=true;
+      isMath=false;
+      isPic=false;
+      $("#myScript-text").removeAttr("hidden");
+      $("#myScript-math").prop("hidden",true);
+      $("#show-pic").prop("hidden",true);
+  })
+  $("#show-math").click(function(){
+      isMath=true;
+      isText=false;
+      isPic=false
+    $("#myScript-math").removeAttr("hidden");
+    $("#myScript-text").prop("hidden",true);
+    $("#show-pic").prop("hidden",true);
+  })
+  $("#show-pic").click(function(){
+        isPic=true;
+        isText=false;
+        isMath=false;
+      $("#myScript-text").prop("hidden",true);
+      $("#myScript-math").prop("hidden",true);
+        $("#picture-input").removeAttr("hidden");
+        layui.upload.render({
+                elem: '#uploadFile'
+                ,url: '/upload',
+                accept: 'images',
+                acceptMime: 'image/*',
+                before: function(obj){
+          obj.preview(function(index, file, result){
+              $('#demo1').attr('src', result); //图片链接（base64）
+          })}
+            ,done: function(res){
+            if(res.code){
+                sessionStorage.setItem("picData",res.data);
+                swal("图片识别成功","请按下面的按钮将数据添加到输入框中","success");
+            }else{
+                layer.alert('出错了，请检查文件的格式', {
+                    icon: 5,
+                    title: "错误"
+                });
+            }
+        },error:function (error) {
+            layer.alert('出错了，请稍后重试', {
+                icon: 5,
+                title: "错误"
+            });
+        }
+    });
+
+
+    })
+
+    $("#addToInput").click(function(){
+        let text;
+        if(isText){
+            text=sessionStorage.textRecongnizeResult;
+        }
+        if(isMath){
+            let obj=JSON.parse(sessionStorage.exports);
+            text=obj['application/x-latex'];
+        }
+        if (isPic){
+            text=sessionStorage.picData;
+        }
+        sessionStorage.setItem("newText",text);
+        console.log(text);
+        swal('添加成功','请关闭窗口后查看','success');
+    })
+</script>
+</html>

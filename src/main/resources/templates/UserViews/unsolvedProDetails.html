@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+    <!--start of js-->
+    <script type="text/javascript" th:src="@{http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML-full}"></script>
+    <script type="text/javascript" th:src="@{/asset/js/plugins/mathJax-config.js}"></script>
+    <script type="text/javascript" th:src="@{/asset/js/plugins/jquery-2.1.4.min.js}"></script>
+    <script type="text/javascript" th:src="@{/asset/js/plugins/bootstrap.min.js}"></script>
+    <script type="text/javascript" th:src="@{/asset/js/user/unsolvedProDetails.js}"></script>
+    <script type="text/javascript" th:src="@{/asset/js/plugins/dialog.min.js}"></script>
+    <script type="text/javascript" th:src="@{/asset/layui/layui.all.js}"></script>
+    <script type="text/javascript" th:src="@{/asset/js/plugins/elseInputMethod.js}"></script>
+
+    <!--end of js-->
+
+    <!--start of css-->
+    <link rel="stylesheet" th:href="@{/asset/css/user/unsolvedProDetails.css}">
+    <link rel="stylesheet" th:href="@{/asset/css/plugins/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/asset/css/plugins/dialog.css}">
+    <link rel="stylesheet" th:href="@{/asset/layui/css/layui.css}">
+    <!--end of css-->
+<title>ProblemDetails</title>
+    <style>
+        #elseMethods:link{
+            color: #00FF00;
+        }
+        #elseMethods:hover{
+            color: white;
+        }
+    </style>
+</head>
+<body>
+<header th:replace="UserViews/commons::headerbar"></header>
+<div id="web-body-container">
+    <div id="middle">
+        <div id="proInfo">
+            <div id="subject" class="text1" th:text="${unsolvedProblem.subject}"></div>
+            <span hidden th:text="${unsolvedProblem.id}" id="problem-id"></span>
+            <p id="else" class="text1" th:utext="'cteateTime:'+${createdTime}+'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;创建者：'+${unsolvedProblem.customUser.nickName}">
+            </p>
+            <p class="text1" th:if="${firstSolvedTime}" th:text="'FiestSolvedTime:'+${firstSolvedTime}+'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'"></p>
+        </div>
+        <div id="container">
+            <div id="elseAnswer" class="box1" >
+                <div id="noSol" class="elAs" th:if="${unsolvedProblem.answers.size()}==0">暂时无人作答</div>
+                <div class="elAs" th:else th:each="answer:${unsolvedProblem.answers}">
+                    <div id="userInfor">
+                        <div id="photo">
+                            <img th:src="@{/user/getAvatar}">
+                        </div>
+                        <p th:utext="'用户：'+${answer.user.nickName}+'<br /> 已解决题量：'+${answer.user.solvedProblemNum}">
+                        </p>
+                    </div>
+                    <div class="soluAndAna" th:text="${answer.content}"></div>
+                    <span class="answerId" th:text="${answer.id}" hidden></span>
+                    <div class="soluAndAna" th:text="${answer.analysis}"></div>
+                    <div class="input-group cons">
+                        <span class="input-group-addon cons-icon">
+                            <svg t="1623742399328" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="3115" width="16" height="16"><path d="M633.038704 108.536972 269.922592 108.536972c-33.487695 0-62.133106 20.37505-74.236771 49.222051L74.04132 442.201308c-3.63069 9.279341-5.850242 19.164478-5.850242 29.452799l0 77.262688 0.403183 0.403183-0.403183 3.025916c0 44.582381 36.109406 80.69281 80.69281 80.69281l254.786871 0-38.530548 184.382381c-0.807389 4.034896-1.412163 8.271384-1.412163 12.709463 0 16.743336 6.859221 31.873941 17.752316 42.767036l42.968627 42.565445L690.128957 649.78204c14.524808-14.7264 23.602557-34.899858 23.602557-57.090253L713.731514 189.229782C713.731514 144.647401 677.621085 108.536972 633.038704 108.536972zM794.423301 108.536972l0 484.154815 161.384597 0L955.807898 108.536972 794.423301 108.536972z" p-id="3116"></path></svg>
+                        </span>
+                        <span  class="cons-num input-group-addon" th:text="${answer.cons}"></span>
+                    </div>
+                    <div class="input-group pros">
+                        <span class="input-group-addon pros-icon">
+                            <svg t="1623743322794" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="3990" width="16" height="16"><path d="M884.875894 423.143253 646.970506 423.143253c92.185562-340.464205-63.516616-357.853247-63.516616-357.853247-65.993017 0-52.312436 52.182476-57.3031 60.881602 0 166.502152-176.849824 296.971645-176.849824 296.971645l0 472.171899c0 46.607504 63.516616 63.393819 88.433098 63.393819l357.452111 0c33.641191 0 61.036122-88.224344 61.036122-88.224344 88.434122-300.70569 88.434122-390.177444 88.434122-390.177444C944.657442 418.179195 884.875894 423.143253 884.875894 423.143253L884.875894 423.143253 884.875894 423.143253zM884.875894 423.143253" p-id="3991"></path><path d="M251.671415 423.299819 109.214912 423.299819c-29.420053 0-29.873378 28.89612-29.873378 28.89612l29.420053 476.202703c0 30.309306 30.361495 30.309306 30.361495 30.309306L262.420223 958.707948c25.686009 0 25.458835-20.049638 25.458835-20.049638L287.879058 459.411271C287.879058 422.837284 251.671415 423.299819 251.671415 423.299819L251.671415 423.299819 251.671415 423.299819zM251.671415 423.299819" p-id="3992"></path></svg>
+                        </span>
+                        <span  class="pros-num input-group-addon" th:text="${answer.pros}"></span>
+                    </div>
+                </div>
+            </div>
+            <div id="resize">
+                <canvas id="resize-canvas" width="11px" height="50px"></canvas>
+            </div>
+            <div id="answerPos" class="box1">
+                <div id="pageHeader">答题区</div>
+                <div id="pageContent">
+                    <div id="pageContent-Tool">
+                        <button class="toolBtn">$\infty$</button>
+                        <button class="toolBtn">$\cup$</button>
+                        <button class="toolBtn">$\cap$</button>
+                        <button class="toolBtn">$\in$</button>
+                        <button class="toolBtn">$\notin$</button>
+                        <button class="toolBtn">$\varnothing$</button>
+                        <button class="toolBtn">$\forall$</button>
+                        <button class="toolBtn">$\exists$</button>
+                        <button class="toolBtn">$\nabla$</button>
+                        <button class="toolBtn">$\partial$</button>
+                        <button class="toolBtn" id="sum">$\sum$</button>
+                        <button class="toolBtn" id="int">$\int$</button>
+                        <button class="toolBtn" id="sqrt">$\sqrt[x]{y}$</button>
+                        <button class="toolBtn" id="frac">$\frac{x}{y}$</button>
+                    </div>
+                    <div id="MathDiv" contenteditable="true">${原题=}$</div>
+                    <div id="analysis" contenteditable="true"></div>
+                </div>
+                <div id="pageFooter">
+                    <button id="btn-submit" class="btn">提交</button>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+<footer th:replace="UserViews/commons::footerbar"></footer>
+<script>
+    <!--initialize else Input Methods-->
+    generate("MathDiv");
+</script>
+</body>
+</html>

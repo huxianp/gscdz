@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>章节管理</title>
+    <link rel="stylesheet" th:href="@{/asset/css/admin/chapterManager.css}">
+    <link rel="stylesheet" th:href="@{/asset/css/plugins/sweetalert.css}">
+    <style>
+        .acco-title {
+            background-color: #BDBDBD;
+            color: #fff;
+            background-image: url("/asset/images/plus.png");
+            width: 100%;
+            height: 30px;
+            line-height: 30px;
+            cursor: pointer;
+            border-bottom: 1px solid white;
+            text-align: center;
+            background-repeat: no-repeat;
+            background-position: center right;
+        }
+        .current-part {
+            background-image: url("/asset/images/minus.png") !important;
+        }
+        .chapter-name-input{
+            position: absolute;
+            top: 6px;
+            left: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="box">
+
+    <div class="acco-part" th:each="chapter:${chapterList}">
+        <h3 class="acco-title" th:text="${chapter.title}"></h3>
+
+        <div class="acco-body">
+            <div class="acco-body-part" th:each="kp:${chapter.kpSet}">
+                <a class="values" href="javascript:void(-1)" th:text="${kp.title}"></a><span class=".kpId" th:text="${kp.id}" hidden></span>
+                <svg  class="delIcon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2386" width="20" height="20"><path d="M814.29 136.567H207.664c-55.752 0-101.274 13.3-101.274 56.776v26.086h808.663v-26.086c0.511-42.965-45.011-56.776-100.763-56.776" p-id="2387" fill="#ffffff"></path><path d="M723.245 191.808l-19.948-140.66c-3.58-27.62-29.667-50.125-57.287-50.125H376.456c-28.132 0-53.707 22.505-57.799 50.126l-19.948 141.17c-3.58 27.621 15.856 22.506 43.477 22.506h337.07c28.133-0.511 47.57 4.604 43.989-23.017z m-360.6-28.643L377.99 51.66h265.463l15.344 111.505H362.645zM831.17 282.342H190.785c-36.827 0-64.959 30.177-61.378 67.005l55.24 607.648c3.58 36.827 36.316 67.005 73.655 67.005h505.35c36.828 0 70.074-30.178 73.655-67.005l55.24-607.137c3.58-36.827-24.04-67.516-61.378-67.516zM376.456 953.415H245.514l-43.476-592.816h174.418v592.816z m221.474 0H423.512V360.599H597.93v592.816z m177.487 0H646.01V360.599h172.883l-43.476 592.816z" p-id="2388" fill="#ffffff"></path></svg>
+            </div>
+            <div class="acco-body-part">
+                <svg class="addPart" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="3563" width="20px" height="20px"><path d="M935.3 423.8H600.2V88.7c0-48.3-39.6-87.9-87.9-87.9h-0.7c-48.3 0-87.9 39.6-87.9 87.9v335.1h-335C40.4 423.8 0.8 463.4 0.8 511.7v0.7c0 48.3 39.6 87.9 87.9 87.9h335.1v335.1c0 48.3 39.6 87.9 87.9 87.9h0.7c48.3 0 87.9-39.6 87.9-87.9V600.2h335.1c48.3 0 87.9-39.6 87.9-87.9v-0.7c-0.1-48.3-39.6-87.8-88-87.8z" p-id="3564" fill="#ffffff"></path></svg>
+            </div>
+        </div>
+    </div>
+    <div class="acco-part" id="addChapter">
+        <h3 class="acco-title">增加章节</h3>
+    </div>
+</div>
+<div id="passage-material" >
+    <div id="passage-heading"><h1>相关资料</h1></div>
+    <div id="passage-body" contenteditable="true"></div>
+    <div id="passage-footer">
+        <button  id="update-Material-btn" type="button">update</button>
+    </div>
+</div>
+
+</body>
+    <script th:src="@{/asset/js/plugins/jquery-2.1.4.min.js}"></script>
+    <script th:src="@{/asset/js/admin/chapterManager.js}"></script>
+    <script th:src="@{/asset/js/plugins/sweetalert.min.js}"></script>
+
+</html>

@@ -1,0 +1,59 @@
+@charset "UTF-8";
+body {
+    background: #f5f5f5 !important;
+    font-size: 12px;
+    color: #333;
+    outline: 0;
+    font-family: "Arial", "Hiragino Sans GB", "Microsoft YaHei",
+    \5fae\8f6f\96c5\9ed1, "Helvetica", "sans-serif";
+}
+
+table a {
+    text-decoration: none;
+    font-weight:600;
+}
+#web-body-container {
+    padding-top: 90px;
+    width: 100%;
+}
+#middle {
+    width: 95%;
+    min-height: 800px;
+    margin: 0 auto;
+    background-color: white;
+    box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.3), 0px 0px 20px
+    rgba(0, 0, 0, 0.1) inset;
+    padding-top: 5px;
+}
+#title{
+    text-align:center;
+    font-size:28px;
+
+}
+table{
+    margin-left:10%;
+
+}
+table td{
+    font-size:16px;
+}
+table tr:nth-of-type(even){
+    background-color: #f5f5f5;
+}
+.id{
+    width:10%;
+}
+.subject{
+    width:60%;
+    overflow: hidden;
+}
+.createTime{
+    width:20%;
+}
+.action{
+    width:10%;
+}
+.canvas{
+    margin-left:40%;
+    cursor: pointer;
+}

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+    <!--start of js-->
+    <script type="text/javascript" th:src="@{http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML-full}"></script>
+    <script type="text/javascript" th:src="@{/asset/js/plugins/mathJax-config.js}"></script>
+    <script type="text/javascript" th:src="@{/asset/js/plugins/jquery-2.1.4.min.js}"></script>
+    <script type="text/javascript" th:src="@{/asset/js/plugins/bootstrap.min.js}"></script>
+    <script type="text/javascript" th:src="@{/asset/js/plugins/dialog.min.js}"></script>
+    <script type="text/javascript" th:src="@{/asset/js/user/test.js}"></script>
+    <script type="text/javascript" th:src="@{/asset/js/plugins/sweetalert.min.js}"></script>
+    <script type="text/javascript" th:src="@{/asset/layui/layui.all.js}"></script>
+    <script type="text/javascript" th:src="@{/asset/js/plugins/elseInputMethod.js}"></script>
+
+    <!--end of js-->
+
+    <!--start of css-->
+    <link rel="stylesheet" th:href="@{/asset/css/user/test.css}">
+    <link rel="stylesheet" th:href="@{/asset/css/plugins/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/asset/css/plugins/dialog.css}">
+    <link rel="stylesheet" th:href="@{/asset/css/plugins/sweetalert.css}">
+    <link rel="stylesheet" th:href="@{/asset/layui/css/layui.css}">
+    <!--end of css-->
+    <style>
+        #elseMethods:link{
+            color: #00FF00;
+        }
+        #elseMethods:hover{
+            color: white;
+        }
+    </style>
+<title>test</title>
+</head>
+<body>
+<header th:replace="UserViews/commons::headerbar"></header>
+
+<div id="web-body-container">
+    <div id="middle">
+
+        <div id="proInfo">
+            <div id="problemId" hidden="hidden" th:text="${randomSolvedPro.id}"></div>
+            <div id="subject" class="text1" th:text="${randomSolvedPro.subject}">
+            </div>
+            <div id="tips" hidden="hidden" th:each="tip:${randomSolvedPro.tips}" th:text="${tip.tip}+'||'"></div>
+            <p id="else" class="text1"  th:utext="'答对人次：'+${randomSolvedPro.solvedTimes}+'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+'相关知识点：'+${randomSolvedPro.relevantKps[0].title}"></p>
+        </div>
+
+        <button id="startBtn" class="btn">开始作答</button>
+        <button id="tipsBtn" class="btn">提示一下</button>
+
+        <div id="answerPos">
+            <div id="pageHeader">答题区</div>
+            <div id="pageContent">
+                <div id="pageContent-Tool">
+                    <button class="toolBtn">$\infty$</button>
+                    <button class="toolBtn">$\cup$</button>
+                    <button class="toolBtn">$\cap$</button>
+                    <button class="toolBtn">$\in$</button>
+                    <button class="toolBtn">$\notin$</button>
+                    <button class="toolBtn">$\varnothing$</button>
+                    <button class="toolBtn">$\forall$</button>
+                    <button class="toolBtn">$\exists$</button>
+                    <button class="toolBtn">$\nabla$</button>
+                    <button class="toolBtn">$\partial$</button>
+                    <button class="toolBtn" id="sum">$\sum$</button>
+                    <button class="toolBtn" id="int">$\int$</button>
+                    <button class="toolBtn" id="sqrt">$\sqrt[x]{y}$</button>
+                    <button class="toolBtn" id="frac">$\frac{x}{y}$</button>
+                </div>
+                <div id="MathDiv" contenteditable="true">${原题=}$</div>
+                <div id="solution" hidden="hidden" th:each="answer:${randomSolvedPro.answers}">
+                    <p th:text="${answer.content}"></p>
+                </div>
+                <div id="analysis" hidden="hidden" th:text="${randomSolvedPro.analysis}">
+                </div>
+            </div>
+            <div id="pageFooter">
+                <button id="btn-submit" class="btn">作答完毕</button>
+                <button id="btn-addToctj" class="btn">添加到错题集</button>
+
+            </div>
+
+        </div>
+
+
+
+
+    </div>
+</div>
+<script>
+    <!--initialize else Input Methods-->
+    generate("MathDiv");
+</script>
+<footer th:replace="UserViews/commons::footerbar"></footer>
+</body>
+</html>

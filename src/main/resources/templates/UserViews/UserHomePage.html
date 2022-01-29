@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+    <!--start of js-->
+    <script type="text/javascript" th:src="@{http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML-full}"></script>
+    <script type="text/javascript" th:src="@{asset/js/plugins/mathJax-config.js}"></script>
+    <script type="text/javascript" th:src="@{asset/js/plugins/jquery-2.1.4.min.js}"></script>
+    <script type="text/javascript" th:src="@{asset/js/user/homePage.js}"></script>
+    <!--end of js-->
+
+    <!--start of css-->
+    <link rel="stylesheet" th:href="@{asset/css/user/homePage.css}">
+    <!--end of css-->
+</head>
+<header th:replace="UserViews/commons::headerbar"></header>
+<body>
+<div id="middle">
+    <div class="container1">
+        <div class="container2">
+            <div class="container3">
+                <div class="leftNav" >
+                    <div class="chapter">
+                        <span class="headline title">章节内容</span> <span class="subtitle"></span>
+                    </div>
+                    <div class="chapter" th:each="chapter:${chapters}">
+                        	<span class="headline">
+								<a th:text="${chapter.title}" th:href="@{'/chapter/'+${chapter.id}}"></a>
+							</span>
+                        <span class="subtitle" th:each="kp:${chapter.kpSet}">
+								<a th:utext="${kp.title}+'<span>/</span>'" th:href="@{'/chapter/knowledgePoint/'+${chapter.id}+'/'+${kp.id}}"></a>
+							</span>
+                    </div>
+
+                    <div id="icon">
+                        <canvas id="canvas" width="30px" height="30px"></canvas>
+                    </div>
+
+                </div>
+                <div class="swiper-contione">
+                    <div class="swiper">
+                        <div class="swiper-item">
+                            <a href="https://mp.weixin.qq.com/s/uKYmqDL7uOdYEM2s1LjTvQ">
+                                <img th:src="@{asset/images/1.png}"></a>
+                        </div>
+                        <div class="swiper-item">
+                            <a href="https://mp.weixin.qq.com/s/ZCkQ7rVxRkDyzXja7S73kQ"><img
+                                    th:src="@{asset/images/2.png}"></a>
+                        </div>
+                        <div class="swiper-item">
+                            <a href="https://mp.weixin.qq.com/s/ZQFDX_kT8q6Yjb4cBj8Diw"><img
+                                    th:src="@{asset/images/3.jpg}"></a>
+                        </div>
+                    </div>
+                    <div class="swiper-point">
+                        <div class="swiper-point-item">
+                            <div class="point active"></div>
+                            <div class="point"></div>
+                            <div class="point"></div>
+                        </div>
+                    </div>
+                    <div class="swiper-left">
+                        <img th:src="@{asset/images/left.png}">
+                    </div>
+                    <div class="swiper-right">
+                        <img th:src="@{asset/images/right.png}">
+                    </div>
+                </div>
+                <div class="user">
+
+                    <div id="img">
+                        <img id="avatar" th:src="@{/user/getAvatar}">
+                    </div>
+                    <p id="hello" class="mag" th:text="'你好，'+${nickName}"></p>
+                    <p id="solvedQuestionN" class="mag font" th:text="'我解决的问题数量：'+${solvedProblemNum}"></p>
+                    <p id="concernQuestionN" class="font" th:text="'我创建的问题数量：'+${unSolvedProblemNum}"></p>
+                    <a id="user" class=" mag" th:href="@{/user/getSelfInformation}">个人资料</a>
+                </div>
+            </div>
+        </div>
+        <div id="web-material">
+            <p class="web-material-title">每日一题</p>
+
+            <div class="web-material-inner">
+                &nbsp;&nbsp;&nbsp;&nbsp;设$f$是一定义于长度不小于2的闭区间I上的实函数，满足$\vert{f(x)}\vert\le1,\vert{f''(x)}\vert\le1.\text{对于}x\in I,\text{证明：}\vert{f'(x)}\vert\le2.\text{对于}x\in I,$且有函数使得等式成立.(选自第二届北京市大学生(非理科)数学竞赛)
+                <br/>
+                证 令闭区间$I=[a,a+2]$,将函数F在任意点$x\in I$按一阶泰勒公式展开，有$$f(t)=f(x)+f'(x)(t-x)+\frac{f''(\xi)}{2!}(t-x)^2,\text{其中}\xi\in I,$$$$\text{则有：}f(a+2)=f(x)+f'(x)(a+2-x)+\frac{f''(\xi_1)}{2}(a+2-x)^2,(a\le x\le\xi_1\le a+2)\text{①}$$$$f(a)=f(x)+f'(x)(a-x)+\frac{f''(\xi_2)}{2}(a-x)^2(a\le x\le\xi_2\le x\le a+2)\text{②}$$式①-式②，得：$$f(a+2)-f(a)=2f'(x)+\frac{f''(\xi_1)}{2}(a+2-x)^2-\frac{f''(\xi_2)}{2}(a-x)^2$$$$\Rightarrow2\vert f'(x)\vert=\vert{f(a+2)-f(a)-\frac{f''(\xi_1)}{2}(a+2-x)^2+\frac{f''(\xi_2)}{2}(a-x)^2}\vert$$$$\le\vert f(a+2)\vert+\vert{f(a)}\vert+\vert\frac{f''(\xi_1)}{2}(a+2-x)^2\vert+\vert\frac{f''(\xi_2)}{2}(a-x)^2\vert$$$$\le 1+1+\frac{1}{2}(a+2-x)^2+\frac{1}{2}(a-x)^2$$$$=2+(a^2+x^2+-2ax+2+2a-2x)$$$$=4-(x-a)(a+2-x)$$<br>因为$a\le x\le a+2$,所以$x-a\geqslant 0.a+2-x\geqslant0$,故上式$\le 4.$<br>故有$\vert f'(x)\vert\le 2$,对于$x\in I=[a,a+2].$<br>特别的，当$f(x)=\frac{1}{2}(x-a)^2-1$时，$x\in I=[a,a+2]$$$\Rightarrow f'(x)=x-a,f''(x)=1.$$若$x=a+2$,有$\vert f(a+2)=1\vert,\vert f''(a+2)=1\vert$,又有结论$\vert f'(a+2)=1\vert$,故对于函数$f(x)=\frac{1}{2}(x-a)^2-1$,有$\vert f'(x)\vert\le 2$,对于$x\in I=[a,a+2].$
+                <br/>
+                <span style="font-size: 18px;">分析：</span>由已知条件和求证结果中有$f(x),f'(x),f''(x)$,容易想象可利用一阶泰勒公式，再利用绝对值不等式性质可得需证结论。
+            </div>
+        </div>
+    </div>
+
+</div>
+<footer th:replace="UserViews/commons::footerbar"></footer>
+</body>
+</html>

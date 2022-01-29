@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>LogIn</title>
+		<!--start of css File-->
+		<link rel="stylesheet" href="asset/css/user/loginPage.css">
+		<link rel="stylesheet" href="asset/css/plugins/sweetalert.css">
+		<!--end of css file-->
+
+		<!--start of js file-->
+		<script type="text/javascript" src="asset/js/plugins/jquery-2.1.4.min.js"></script>
+		<script type="text/javascript" src="asset/js/plugins/sweetalert.min.js"></script>
+		<!--end of js file-->
+</head>
+<body>
+	<div class="box" id="logInBox">
+			<form action="#" th:action="@{/login}" method="post" class="form">
+				<h1 class="form-title">Login</h1>
+				<span id="errorinf" th:if="${param.error}" th:text="${session?.SPRING_SECURITY_LAST_EXCEPTION?.message}" ></span>
+
+				<label for="username"> <input type="text" id="username"
+					name="username" placeholder="Username" class="input"/></label>
+				<label for="password"> <input type="password" id="password"
+					name="password" placeholder="Password" class="input"/></label>
+					<input type="checkbox" id="rememberMe" name="isRememberMe"><span id="rmspan">记住我</span>
+				<button class="btn" type="submit" id="loginBtn">立即登录</button>
+				<button class="btn" type="button" id="signInBtn">我要注册</button>
+				<a  class="forgetPsw" href="#">忘记密码?</a>
+			</form>
+
+		<script>
+
+			//是否记住的功能
+			$("#rememberMe").on("change",function () {
+				let isRememberMe=$("#rememberMe").prop("checked");//checkbox的状态
+				console.log(isRememberMe);
+				if(isRememberMe){
+					swal("已记住", "", "success");
+					return;
+				}
+				swal("已取消", "", "success");
+			})
+			//username和password的判断
+			$("#loginBtn").click(function () {
+				let userName=$("#username").val();
+				let password=$("#password").val();
+
+				if(userName==""){
+					swal("请输出用户名", "", "warning");
+					return;
+				}
+				if(password==""){
+					swal("请输入密码", "", "warning");
+					return;
+				}
+			})
+			//回车事件触发登录
+			$(document).keyup(function(e){
+				let  evt = e || window.event;
+				let keycode = evt.keyCode || evt.which || evt.charCode;
+				if(keycode == 13){$("#loginBtn").click();
+				}
+			});
+			$("#signInBtn").click(function () {
+				window.location.href="/registerPage";
+			})
+		</script>
+	</div>
+</body>
+</html>

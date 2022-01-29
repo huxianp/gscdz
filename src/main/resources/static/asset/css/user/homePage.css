@@ -1,0 +1,310 @@
+a {
+    text-decoration: none;
+}
+
+body {
+    background: #f5f5f5 !important;
+    font-size: 12px;
+    color: #333;
+    outline: 0;
+    font-family: "Arial", "Hiragino Sans GB", "Microsoft YaHei",
+    \5fae\8f6f\96c5\9ed1, "Helvetica", "sans-serif";
+}
+
+#middle {
+    padding-top: 75px;
+}
+
+.container1 {
+    min-height: 100vh;
+    background-color: rgba(247, 247, 247, 1);
+}
+
+.container2 {
+    width: 1200px;
+    margin: 0 auto;
+}
+
+.container3 {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    width: 1200px;
+    margin-bottom: 12px;
+    position: relative;
+}
+/*左边导航栏*/
+.leftNav {
+    box-sizing: border-box;
+    display: flex;
+    flex-flow: column nowrap;
+    width: 200px;
+    height: 360px;
+    padding: 10px 0;
+    border-radius: 4px;
+    background-color: white;
+    position: absolute;
+    left: 0;
+    z-index: 9;
+    transition-property: height;
+    transition-duration: .5s;
+}
+/*中间部分*/
+.swiper-contione {
+    position: relative;
+    width: 776px;
+    height: 360px;
+    border-radius: 4px;
+    left: 212px;
+    overflow: hidden;
+}
+
+.swiper {
+    width: 3000px;
+    height: 360px;
+    transition: all 1s ease;
+}
+
+.swiper-item {
+    width: 776px;
+    height: 360px;
+    position: relative;
+    float: left;
+}
+
+.swiper-item img {
+    width: 776px;
+    height: 360px;
+}
+
+.swiper-point {
+    width: 100%;
+    height: 40px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.point {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: rgba(0, 0, 0, 0.9);
+    margin-right: 5px;
+    float: left;
+}
+
+.point.active {
+    background: #fff;
+}
+
+.swiper-left {
+    width: 60px;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: -60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.4s ease;
+}
+
+.swiper-right {
+    width: 60px;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    right: -60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.4s ease;
+}
+
+.swiper-left img, .swiper-right img {
+    cursor: pointer;
+}
+
+.swiper-contione:hover .swiper-left {
+    left: 0;
+}
+
+.swiper-contione:hover .swiper-right {
+    right: 0;
+}
+
+/*右边部分 呈现用户的基本信息 头像、等级、身份等
+        具体呈现页面跳转
+*/
+.user {
+    box-sizing: border-box;
+    position: relative;
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    width: 200px;
+    height: 360px;
+    border-radius: 4px;
+    background-color: rgb(255, 255, 255);
+}
+
+.web-material-title {
+    color: #333;
+    font-size: 24px;
+    font-weight: 500;
+    margin-bottom: 13px;
+}
+
+.web-material-inner {
+    position: relative;
+    width: 1200px;
+    overflow: hidden;
+    font-size:15px;
+    padding: 10px;
+}
+
+#web-material {
+    background-color: white;
+    width: 1200px;
+    margin: 0 auto;
+}
+
+#subject {
+    font-size: 18px;
+    font-weight: 500;
+}
+
+#else {
+    font-size: 16px;
+    color: gray;
+    font-weight: 400;
+}
+
+#solution, #analysis {
+    font-size: 16px;
+    font-weight: 500;
+}
+
+#footer {
+    margin-top: 20px;
+}
+
+#footer-inner {
+    text-align: center;
+    font-size: 12px;
+}
+
+.nav:hover {
+    color: deepskyblue;
+}
+
+.chapter {
+    line-height: 34px;
+    box-sizing: border-box;
+    width: 200px;
+    height: 34px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    transition-property: background-color;
+    transition-duration: .2s;
+    transition-timing-function: ease-out;
+}
+
+.leftNav>div:nth-of-type(n+2):hover {
+    background-color: aliceblue;
+}
+
+.headline {
+    font-size: 14px;
+    margin-left: 8px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.title {
+    font-size: 20px;
+}
+
+.subtitle {
+    margin-left: 8px;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 17px;
+    cursor: pointer;
+}
+
+.headline>a {
+    color: black;
+}
+
+.subtitle>a {
+    color: gray;
+}
+
+.headline a:hover, .subtitle a:hover {
+    text-decoration: underline;
+    color: deepskyblue;
+}
+
+#canvas {
+    margin-left: 40%;
+    transition-property: all;
+    transition-delay: .5s;
+    transition-duration: .5s;
+    transition-timing-function: ease-in-out;
+}
+
+#img {
+    position: relative;
+    top: 20px;
+    width: 60px;
+    height: 60px;
+    background-color: silver;
+    cursor: pointer;
+    border-radius: 50%;
+    overflow: hidden;
+}
+#avatar{
+    width: 60px;
+    height: 60px;
+}
+
+#hello {
+    text-align: center;
+    font-size: 20px;
+    font-weight: 600;
+    color: #000000;
+    max-width: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.mag {
+    margin-top: 36px;
+}
+
+.font {
+    font-size: 13px;
+    color: #000000;
+    max-width: 150px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+#user {
+    background-color: #f5f5f5;
+    font-size: 14px;
+    height: 32px;
+    width: 160px;
+    text-align: center;
+    line-height: 34px;
+    border-radius: 18px;
+}
